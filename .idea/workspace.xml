@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0c3a9665-2fc4-4b6e-974d-db9f92607abb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/com/arch/desc/lang/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/arch/desc/lang/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/arch/desc/lang/compiler/CCodeCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/arch/desc/lang/compiler/CCodeCompiler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/arch/desc/lang/entity/CExecutionSequence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/arch/desc/lang/entity/CExecutionSequence.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/arch/desc/lang/entity/CMethodCall.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/arch/desc/lang/entity/CMethodCall.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/arch/desc/lang/entity/CVariableDefinition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/arch/desc/lang/entity/CVariableDefinition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/template.arch" beforeDir="false" afterPath="$PROJECT_DIR$/template.arch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/template.arch" beforeDir="false" afterPath="$PROJECT_DIR$/doc/example.arch" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,7 +34,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/arch/desc/lang/compiler/CCodeCompiler.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
-              <caret line="11" column="27" lean-forward="true" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+              <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#364#365#0" expanded="true" />
@@ -83,24 +79,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/template.arch">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/doc/example.arch">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="32" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
+            <state relative-caret-position="289">
+              <caret line="17" selection-end-line="35" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/arch/desc/lang/entity/CVariable.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
-              <folding>
-                <element signature="e#208#209#0" expanded="true" />
-                <element signature="e#236#237#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="533">
+              <caret line="45" column="25" selection-start-line="45" selection-start-column="25" selection-end-line="45" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -144,7 +136,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/arch/desc/lang/entity/CExecutionSequence.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
-              <caret line="15" column="41" lean-forward="true" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
+              <caret line="15" column="41" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
               <folding>
                 <element signature="e#310#311#0" expanded="true" />
                 <element signature="e#344#345#0" expanded="true" />
@@ -198,6 +190,7 @@
         <option value="$PROJECT_DIR$/src/com/arch/desc/lang/entity/CMethodCall.java" />
         <option value="$PROJECT_DIR$/src/com/arch/desc/lang/generator/puml/CPUMLSequenceGenerator.java" />
         <option value="$PROJECT_DIR$/template.arch" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -227,7 +220,7 @@
             <path>
               <item name="ArchDescLang" type="b2602c69:ProjectViewProjectNode" />
               <item name="ArchDescLang" type="462c0819:PsiDirectoryNode" />
-              <item name="grammar" type="462c0819:PsiDirectoryNode" />
+              <item name="doc" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ArchDescLang" type="b2602c69:ProjectViewProjectNode" />
@@ -288,7 +281,7 @@
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/doc" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -296,10 +289,14 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\vhapiak\IdeaProjects\ArchDescLang\doc" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.arch.desc.lang.entity" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\vhapiak\IdeaProjects\ArchDescLang\doc" />
       <recent name="C:\Users\vhapiak\IdeaProjects\ArchDescLang\src" />
       <recent name="C:\Users\vhapiak\IdeaProjects\ArchDescLang\grammar" />
     </key>
@@ -320,7 +317,7 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.arch.desc.lang.Main" />
       <module name="ArchDescLang" />
-      <option name="PROGRAM_PARAMETERS" value="template.arch" />
+      <option name="PROGRAM_PARAMETERS" value="doc/example.arch" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.arch.desc.lang.*" />
@@ -363,12 +360,12 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32936078" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32936078" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32936078" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32936078" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Flutter Performance" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" />
@@ -553,7 +550,7 @@
     <entry file="file://$PROJECT_DIR$/src/com/arch/desc/lang/compiler/CCodeCompiler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="11" column="27" lean-forward="true" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
+          <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#364#365#0" expanded="true" />
@@ -575,7 +572,7 @@
     <entry file="file://$PROJECT_DIR$/src/com/arch/desc/lang/entity/CExecutionSequence.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
-          <caret line="15" column="41" lean-forward="true" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
+          <caret line="15" column="41" selection-start-line="15" selection-start-column="41" selection-end-line="15" selection-end-column="41" />
           <folding>
             <element signature="e#310#311#0" expanded="true" />
             <element signature="e#344#345#0" expanded="true" />
@@ -644,10 +641,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/template.arch">
+    <entry file="file://$PROJECT_DIR$/doc/example.arch">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="32" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
+        <state relative-caret-position="289">
+          <caret line="17" selection-end-line="35" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="533">
+          <caret line="45" column="25" selection-start-line="45" selection-start-column="25" selection-end-line="45" selection-end-column="25" />
         </state>
       </provider>
     </entry>
