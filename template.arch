@@ -1,0 +1,31 @@
+interface IContext {
+    void init();
+}
+
+interface IContextFactory {
+    IContext makeInstance();
+}
+
+interface IContextManager {
+    void manage(IContext context);
+}
+
+interface ISubmodule {
+    void init();
+}
+
+behavior {
+
+    ISubmodule submodule;
+    submodule.init() {
+        IContextFactory factory;
+        IContext context = factory.makeInstance();
+
+        IContextManager manager;
+        manager.manage(context) {
+            context.init();
+        };
+
+    };
+
+}
