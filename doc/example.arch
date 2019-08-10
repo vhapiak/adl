@@ -1,36 +1,15 @@
-interface IContextRoutine {
-    void execute();
+interface A {
+    void foo();
 }
 
-interface IContext {
-    void capture();
-    void process(IContextRoutine routine);
-    void release();
-}
-
-interface IContextManager {
-    IContext getContext();
-}
-
-interface IComponent {
-    void process(IContextManager manager);
+interface B {
+    void bar(A a);
 }
 
 behavior {
-
-    IContextManager manager;
-    IComponent component;
-    component.process(manager) {
-        IContextRoutine routine;
-
-        IContext context = manager.getContext();
-        context.capture();
-
-        context.process(routine) {
-            routine.execute();
-        };
-
-        context.release();
-    };
-
+    A var;
+    B boo;
+    boo.bar(var);
+    boo.bar(var);
+    boo.bar(boo);
 }
