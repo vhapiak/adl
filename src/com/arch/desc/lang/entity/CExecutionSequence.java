@@ -9,5 +9,9 @@ public class CExecutionSequence extends WithName {
         mStatements = statements;
     }
 
+    public List<IExecutionStatement> getStatements() {
+        return mStatements;
+    }
+
     private List<IExecutionStatement> mStatements;
 }

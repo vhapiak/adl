@@ -15,6 +15,22 @@ public class CMethodCall implements IExecutionStatement {
         mExecutionSequence = executionSequence;
     }
 
+    public CVariable getVariable() {
+        return mVariable;
+    }
+
+    public CMethod getMethod() {
+        return mMethod;
+    }
+
+    public List<CVariable> getArguments() {
+        return mArguments;
+    }
+
+    public CExecutionSequence getExecutionSequence() {
+        return mExecutionSequence;
+    }
+
     private CVariable mVariable;
     private CMethod mMethod;
     private List<CVariable> mArguments;

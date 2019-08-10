@@ -7,6 +7,14 @@ public class CVariableDefinition implements IExecutionStatement {
         mMethodCall = methodCall;
     }
 
+    public CVariable getVariable() {
+        return mVariable;
+    }
+
+    public CMethodCall getMethodCall() {
+        return mMethodCall;
+    }
+
     private CVariable mVariable;
     private CMethodCall mMethodCall;
 

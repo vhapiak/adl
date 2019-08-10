@@ -12,6 +12,10 @@ public class CCodeCompiler {
         compileDynamic(code);
     }
 
+    public CNamespaceContext getGlobalNamespace() {
+        return mGlobalNamespace;
+    }
+
     private void compileStatic(ADLGrammarParser.CodeContext code) {
         mGlobalNamespace.addType(new CType("void"));
 

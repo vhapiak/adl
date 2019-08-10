@@ -1,5 +1,6 @@
 package com.arch.desc.lang;
 
+import com.arch.desc.lang.generator.puml.CPUMLSequenceGenerator;
 import com.arch.desc.lang.grammar.ADLGrammarLexer;
 import com.arch.desc.lang.grammar.ADLGrammarParser;
 import com.arch.desc.lang.compiler.CCodeCompiler;
@@ -15,6 +16,7 @@ public class Main {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ADLGrammarParser parser = new ADLGrammarParser(tokens);
         CCodeCompiler codeParser = new CCodeCompiler(parser.code());
-        System.out.println(parser.code().interfaceDefinition(0).IDENTIFIER());
+        CPUMLSequenceGenerator generator = new CPUMLSequenceGenerator(codeParser.getGlobalNamespace());
+        System.out.println(generator.getPUML());
     }
 }

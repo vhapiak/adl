@@ -1,31 +1,36 @@
-interface IContext {
-    void init();
+interface IContextRoutine {
+    void execute();
 }
 
-interface IContextFactory {
-    IContext makeInstance();
+interface IContext {
+    void capture();
+    void process(IContextRoutine routine);
+    void release();
 }
 
 interface IContextManager {
-    void manage(IContext context);
+    IContext getContext();
 }
 
-interface ISubmodule {
-    void init();
+interface IComponent {
+    void process(IContextManager manager);
 }
 
 behavior {
 
-    ISubmodule submodule;
-    submodule.init() {
-        IContextFactory factory;
-        IContext context = factory.makeInstance();
+    IContextManager manager;
+    IComponent component;
+    component.process(manager) {
+        IContextRoutine routine;
 
-        IContextManager manager;
-        manager.manage(context) {
-            context.init();
+        IContext context = manager.getContext();
+        context.capture();
+
+        context.process(routine) {
+            routine.execute();
         };
 
+        context.release();
     };
 
 }
