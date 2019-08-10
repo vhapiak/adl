@@ -1,5 +1,6 @@
 package com.arch.desc.lang;
 
+import com.arch.desc.lang.compiler.CCompilerError;
 import com.arch.desc.lang.generator.puml.CPUMLSequenceGenerator;
 import com.arch.desc.lang.grammar.ADLGrammarLexer;
 import com.arch.desc.lang.grammar.ADLGrammarParser;
@@ -11,7 +12,7 @@ import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, CCompilerError {
         ADLGrammarLexer lexer = new ADLGrammarLexer(CharStreams.fromFileName(args[0]));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         ADLGrammarParser parser = new ADLGrammarParser(tokens);

@@ -10,6 +10,14 @@ public class CMethod extends WithName {
         mArguments = arguments;
     }
 
+    public CType getReturnType() {
+        return mReturnType;
+    }
+
+    public List<CArgument> getArguments() {
+        return mArguments;
+    }
+
     private CType mReturnType;
     private List<CArgument> mArguments;
 

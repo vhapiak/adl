@@ -7,6 +7,10 @@ public class CArgument extends WithName {
         mType = type;
     }
 
+    public CType getType() {
+        return mType;
+    }
+
     private CType mType;
 
 }

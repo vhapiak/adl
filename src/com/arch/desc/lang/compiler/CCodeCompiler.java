@@ -4,10 +4,11 @@ import com.arch.desc.lang.entity.*;
 import com.arch.desc.lang.grammar.ADLGrammarParser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CCodeCompiler {
 
-    public CCodeCompiler(ADLGrammarParser.CodeContext code) {
+    public CCodeCompiler(ADLGrammarParser.CodeContext code) throws CCompilerError {
         compileStatic(code);
         compileDynamic(code);
     }
@@ -16,7 +17,7 @@ public class CCodeCompiler {
         return mGlobalNamespace;
     }
 
-    private void compileStatic(ADLGrammarParser.CodeContext code) {
+    private void compileStatic(ADLGrammarParser.CodeContext code) throws CCompilerError {
         mGlobalNamespace.addType(new CType("void"));
 
         for (ADLGrammarParser.InterfaceDefinitionContext context : code.interfaceDefinition()) {
@@ -24,7 +25,7 @@ public class CCodeCompiler {
         }
     }
 
-    private void compileDynamic(ADLGrammarParser.CodeContext code) {
+    private void compileDynamic(ADLGrammarParser.CodeContext code) throws CCompilerError {
         for (ADLGrammarParser.BehaviorDefinitionContext context : code.behaviorDefinition()) {
             mGlobalNamespace.addExecutionSequence(compileBehavior(context, mGlobalNamespace));
         }
@@ -32,7 +33,7 @@ public class CCodeCompiler {
 
     private static CExecutionSequence compileBehavior(
             ADLGrammarParser.BehaviorDefinitionContext behaviorAST,
-            CNamespaceContext namespace) {
+            CNamespaceContext namespace) throws CCompilerError {
         CExecutionContext executionContext = new CExecutionContext();
 
         return compileBehaviorBody(behaviorAST.behaviorBody(), executionContext, namespace);
@@ -41,7 +42,7 @@ public class CCodeCompiler {
     private static CExecutionSequence compileBehaviorBody(
             ADLGrammarParser.BehaviorBodyContext behaviorAST,
             CExecutionContext executionContext,
-            CNamespaceContext namespace) {
+            CNamespaceContext namespace) throws CCompilerError {
         ArrayList<IExecutionStatement> statements = new ArrayList<>(behaviorAST.executionStatement().size());
 
         for (ADLGrammarParser.ExecutionStatementContext context : behaviorAST.executionStatement()) {
@@ -58,19 +59,53 @@ public class CCodeCompiler {
     private static CMethodCall compileMethodCall(
             ADLGrammarParser.MethodCallContext methodCallAST,
             CExecutionContext context,
-            CNamespaceContext namespace) {
+            CNamespaceContext namespace) throws CCompilerError {
 
         String variableName = methodCallAST.variableName().IDENTIFIER().getText();
         CVariable variable = context.getVariable(variableName);
+        if (variable == null) {
+            throw new CCompilerError(
+                    "Unknown variable " + variableName,
+                    methodCallAST.variableName().getStart().getLine());
+        }
 
         String methodName = methodCallAST.methodName().IDENTIFIER().getText();
         CMethod method = variable.getType().getMethod(methodName);
+        if (method == null) {
+            throw new CCompilerError(
+                    "Unknown method " + methodName + " from " + variable.getType().getName(),
+                    methodCallAST.methodName().getStart().getLine());
+        }
 
         ArrayList<CVariable> arguments = new ArrayList<>();
         if (methodCallAST.argumentsList() != null) {
             for (ADLGrammarParser.VariableNameContext argContext : methodCallAST.argumentsList().variableName()) {
                 String argumentName = argContext.IDENTIFIER().getText();
-                arguments.add(context.getVariable(argumentName));
+                CVariable argument = context.getVariable(argumentName);
+                if (argument == null) {
+                    throw new CCompilerError(
+                            "Unknown variable " + argumentName + " in arguments list",
+                            argContext.getStart().getLine());
+                }
+                arguments.add(argument);
+            }
+        }
+
+        List<CArgument> definedArguments = method.getArguments();
+        if (definedArguments.size() != arguments.size()) {
+            throw new CCompilerError(
+                    "Arguments number mismatch for method " + methodName,
+                    methodCallAST.methodName().getStart().getLine());
+        }
+        for (int i = 0; i < definedArguments.size(); ++i) {
+            CVariable actualArgument = arguments.get(i);
+            CArgument definedArgument = definedArguments.get(i);
+            if (definedArgument.getType().getName() != actualArgument.getType().getName()) {
+                throw new CCompilerError(
+                        "Cannot cast variable " + actualArgument.getName() +
+                                " of type " + actualArgument.getType().getName() +
+                                " to type " + definedArgument.getType().getName(),
+                        methodCallAST.methodName().getStart().getLine());
             }
         }
 
@@ -89,17 +124,31 @@ public class CCodeCompiler {
     private static CVariableDefinition compileVariableDefinition(
             ADLGrammarParser.VariableDefinitionContext variableDefinitionAST,
             CExecutionContext context,
-            CNamespaceContext namespace) {
+            CNamespaceContext namespace) throws CCompilerError {
         String name = variableDefinitionAST.variableName().IDENTIFIER().getText();
         String typeName = variableDefinitionAST.typeName().IDENTIFIER().getText();
 
         CType type = namespace.getType(typeName);
+        if (type == null) {
+            throw new CCompilerError(
+                    "Unknown variable type " + typeName,
+                    variableDefinitionAST.typeName().getStart().getLine());
+        }
 
         CVariable variable = new CVariable(name, type);
         CMethodCall initializationCall =
                 variableDefinitionAST.methodCall() == null
                         ? null
                         : compileMethodCall(variableDefinitionAST.methodCall(), context, namespace);
+
+        if (initializationCall != null) {
+            CType returnType = initializationCall.getMethod().getReturnType();
+            if (returnType.getName() != type.getName()) {
+                throw new CCompilerError(
+                        "Cannot cast return type " + returnType.getName() + " to type " + type.getName(),
+                        variableDefinitionAST.typeName().getStart().getLine());
+            }
+        }
 
         context.addVariable(variable);
 
@@ -108,7 +157,7 @@ public class CCodeCompiler {
 
     private static CType compileInterface(
             ADLGrammarParser.InterfaceDefinitionContext interfaceAST,
-            CNamespaceContext namespace) {
+            CNamespaceContext namespace) throws CCompilerError {
 
         String name = interfaceAST.IDENTIFIER().getText();
         ArrayList<CMethod> methods = new ArrayList<>(interfaceAST.methodDeclaration().size());
@@ -122,12 +171,17 @@ public class CCodeCompiler {
 
     private static CMethod compileMethod(
             ADLGrammarParser.MethodDeclarationContext methodAST,
-            CNamespaceContext namespace) {
+            CNamespaceContext namespace) throws CCompilerError {
 
         String name = methodAST.methodName().IDENTIFIER().getText();
         String returnTypeName = methodAST.typeName().IDENTIFIER().getText();
 
         CType returnType = namespace.getType(returnTypeName);
+        if (returnType == null) {
+            throw new CCompilerError(
+                    "Unknown return type " + returnTypeName,
+                    methodAST.typeName().getStart().getLine());
+        }
 
         ArrayList<CArgument> arguments = new ArrayList<>();
         ADLGrammarParser.ArgumentsDefinitionListContext argumentsList = methodAST.argumentsDefinitionList();
@@ -142,14 +196,19 @@ public class CCodeCompiler {
 
     private static CArgument compileArgument(
             ADLGrammarParser.ArgumentDefinitionContext argumentAST,
-            CNamespaceContext namespace) {
+            CNamespaceContext namespace) throws CCompilerError {
 
         String name = argumentAST.variableName().IDENTIFIER().getText();
         String typeName = argumentAST.typeName().IDENTIFIER().getText();
 
-        CType returnType = namespace.getType(typeName);
+        CType argumentType = namespace.getType(typeName);
+        if (argumentType == null) {
+            throw new CCompilerError(
+                    "Unknown argument type " + typeName,
+                    argumentAST.typeName().getStart().getLine());
+        }
 
-        return new CArgument(name, returnType);
+        return new CArgument(name, argumentType);
     }
 
     private CNamespaceContext mGlobalNamespace = new CNamespaceContext("<global>");
