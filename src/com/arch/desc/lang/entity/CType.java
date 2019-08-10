@@ -3,10 +3,10 @@ package com.arch.desc.lang.entity;
 import java.util.HashMap;
 import java.util.List;
 
-public class CType {
+public class CType extends WithName {
 
     public CType(String name) {
-        mName = name;
+        super(name);
     }
 
     public  CType(String name, List<CMethod> methods) {
@@ -17,11 +17,10 @@ public class CType {
         }
     }
 
-    public String getName() {
-        return mName;
+    public CMethod getMethod(String name) {
+        return mMethods.get(name);
     }
 
-    private String mName;
     private HashMap<String, CMethod> mMethods = new HashMap<>();
 
 }

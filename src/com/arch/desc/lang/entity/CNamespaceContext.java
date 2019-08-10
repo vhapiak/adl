@@ -2,10 +2,10 @@ package com.arch.desc.lang.entity;
 
 import java.util.HashMap;
 
-public class CNamespaceContext {
+public class CNamespaceContext extends WithName {
 
     public CNamespaceContext(String name) {
-        mName = name;
+        super(name);
     }
 
     public CType getType(String name) {
@@ -24,7 +24,6 @@ public class CNamespaceContext {
         mExecutionSequences.put(sequence.getName(), sequence);
     }
 
-    private String mName;
     private HashMap<String, CType> mTypes = new HashMap<>();
     private HashMap<String, CExecutionSequence> mExecutionSequences = new HashMap<>();
 

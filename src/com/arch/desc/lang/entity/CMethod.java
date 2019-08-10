@@ -2,19 +2,14 @@ package com.arch.desc.lang.entity;
 
 import java.util.List;
 
-public class CMethod {
+public class CMethod extends WithName {
 
     public CMethod(String name, CType returnType, List<CArgument> arguments) {
-        mName = name;
+        super(name);
         mReturnType = returnType;
         mArguments = arguments;
     }
 
-    public String getName() {
-        return mName;
-    }
-
-    private String mName;
     private CType mReturnType;
     private List<CArgument> mArguments;
 

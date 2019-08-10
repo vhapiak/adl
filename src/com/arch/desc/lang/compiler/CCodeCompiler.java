@@ -29,8 +29,77 @@ public class CCodeCompiler {
     private static CExecutionSequence compileBehavior(
             ADLGrammarParser.BehaviorDefinitionContext behaviorAST,
             CNamespaceContext namespace) {
-        ArrayList<IExecutionStatement> statements = new ArrayList<>(behaviorAST.behaviorBody().executionStatement().size());
+        CExecutionContext executionContext = new CExecutionContext();
+
+        return compileBehaviorBody(behaviorAST.behaviorBody(), executionContext, namespace);
+    }
+
+    private static CExecutionSequence compileBehaviorBody(
+            ADLGrammarParser.BehaviorBodyContext behaviorAST,
+            CExecutionContext executionContext,
+            CNamespaceContext namespace) {
+        ArrayList<IExecutionStatement> statements = new ArrayList<>(behaviorAST.executionStatement().size());
+
+        for (ADLGrammarParser.ExecutionStatementContext context : behaviorAST.executionStatement()) {
+            if (context.methodCall() != null) {
+                statements.add(compileMethodCall(context.methodCall(), executionContext, namespace));
+            } else if (context.variableDefinition() != null) {
+                statements.add(compileVariableDefinition(context.variableDefinition(), executionContext, namespace));
+            }
+        }
+
         return new CExecutionSequence("", statements);
+    }
+
+    private static CMethodCall compileMethodCall(
+            ADLGrammarParser.MethodCallContext methodCallAST,
+            CExecutionContext context,
+            CNamespaceContext namespace) {
+
+        String variableName = methodCallAST.variableName().IDENTIFIER().getText();
+        CVariable variable = context.getVariable(variableName);
+
+        String methodName = methodCallAST.methodName().IDENTIFIER().getText();
+        CMethod method = variable.getType().getMethod(methodName);
+
+        ArrayList<CVariable> arguments = new ArrayList<>();
+        if (methodCallAST.argumentsList() != null) {
+            for (ADLGrammarParser.VariableNameContext argContext : methodCallAST.argumentsList().variableName()) {
+                String argumentName = argContext.IDENTIFIER().getText();
+                arguments.add(context.getVariable(argumentName));
+            }
+        }
+
+        CExecutionSequence executionSequence = null;
+        if (methodCallAST.behaviorBody() != null) {
+            CExecutionContext ctx = new CExecutionContext();
+            for (CVariable var : arguments) {
+                ctx.addVariable(var);
+            }
+            executionSequence = compileBehaviorBody(methodCallAST.behaviorBody(), ctx, namespace);
+        }
+
+        return new CMethodCall(variable, method, arguments, executionSequence);
+    }
+
+    private static CVariableDefinition compileVariableDefinition(
+            ADLGrammarParser.VariableDefinitionContext variableDefinitionAST,
+            CExecutionContext context,
+            CNamespaceContext namespace) {
+        String name = variableDefinitionAST.variableName().IDENTIFIER().getText();
+        String typeName = variableDefinitionAST.typeName().IDENTIFIER().getText();
+
+        CType type = namespace.getType(typeName);
+
+        CVariable variable = new CVariable(name, type);
+        CMethodCall initializationCall =
+                variableDefinitionAST.methodCall() == null
+                        ? null
+                        : compileMethodCall(variableDefinitionAST.methodCall(), context, namespace);
+
+        context.addVariable(variable);
+
+        return new CVariableDefinition(variable, initializationCall);
     }
 
     private static CType compileInterface(

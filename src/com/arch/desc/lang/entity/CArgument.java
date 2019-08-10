@@ -1,17 +1,12 @@
 package com.arch.desc.lang.entity;
 
-public class CArgument {
+public class CArgument extends WithName {
 
     public CArgument(String name, CType type) {
-        mName = name;
+        super(name);
         mType = type;
     }
 
-    public String getName() {
-        return mName;
-    }
-
-    private String mName;
     private CType mType;
 
 }
